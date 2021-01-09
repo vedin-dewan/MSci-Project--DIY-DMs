@@ -2,6 +2,7 @@
 """
 Read in and Analyse Focal Spot Images
 """
+#Center of Mass Method to analyse Focal Spot
 
 import numpy as np
 from matplotlib import image
@@ -88,7 +89,7 @@ end=time.time()
 print((end-start))
 print("quality_param=",quality_param)
         
-#%%
+#%% Pixel Value Squared Method to Analyse Focal Spot
 start=time.time()
 def read_in_img(filename):
     pixel_values = np.array(image.imread(filename))
