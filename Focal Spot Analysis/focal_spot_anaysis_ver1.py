@@ -93,7 +93,7 @@ print("quality_param=",quality_param)
 start=time.time()
 def read_in_img(filename):
     pixel_values = np.array(image.imread(filename))
-    pixel_square=np.sum((pixel_values/254)**2)
+    pixel_square=np.sum((pixel_values)**2)
     return pixel_values,pixel_square
 
 for i in range(4):
