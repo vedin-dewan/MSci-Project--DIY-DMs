@@ -82,7 +82,7 @@ x_range=int(np.round(np.max(X)-np.min(X)))
 y_range=int(np.round(np.max(Y)-np.min(Y)))
 print(x_range,y_range)
 
-z_2d=np.zeros((x_range+1,x_range+1))
+z_2d=np.zeros((y_range+1,x_range+1))
 for i in range(len(combined)):
     y=int(np.round(combined[i,1]))
     x=int(np.round(combined[i,0]))
