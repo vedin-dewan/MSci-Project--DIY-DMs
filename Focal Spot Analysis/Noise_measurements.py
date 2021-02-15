@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb  4 14:50:04 2021
-
 @author: maxim
 """
 
@@ -9,17 +8,23 @@ import numpy as np
 from matplotlib import image
 import time
 import matplotlib.pyplot as plt
+import math
 
-image_1='0_0.jpg'
-image_2='0_1.jpg'
-image_3='849_2631_2325_920_817.jpg'
-image_4='893_2386_2339_973_1003.jpg'
-image_5='1168_1630_1922_640_1493.jpg'
-image_6='1163_1300_2061_703_1901.jpg'
-image_7='1191_1416_1850_873_1261.jpg'
-image_8='1377_2150_2261_513_501.jpg'
-image_9='1282_2143_2022_755_606.jpg'
-image_10='1178_2192_2173_666_277.jpg'
+image_1='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/0_0.jpg'
+image_2='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/0_1.jpg'
+image_3='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/849_2631_2325_920_817.jpg'
+image_4='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/893_2386_2339_973_1003.jpg'
+image_5='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1168_1630_1922_640_1493.jpg'
+image_6='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1163_1300_2061_703_1901.jpg'
+image_7='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1191_1416_1850_873_1261.jpg'
+image_8='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1377_2150_2261_513_501.jpg'
+image_9='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1282_2143_2022_755_606.jpg'
+image_10='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1178_2192_2173_666_277.jpg'
+image_11='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1656_2322_2220_1100_1042.jpg'
+image_12='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1253_2340_2274_784_161.jpg'
+image_13='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/947_2237_2712_898_0.jpg'
+image_14='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1090_2036_1948_732_834.jpg'
+image_15='/Users/vedindewan/Desktop/MSci_Project_AO/Focal_Spot_Analysis/Test_Spot_Data/1055_2566_2544_1030_770.jpg'
 images=[image_1,image_2,image_3,image_4,image_5,image_6,image_7,image_8,image_9,image_10]
 mean_pixles=[]
 
@@ -92,13 +97,18 @@ for j in range(len(images)):
     cornersizes=np.arange(4,25,1)
     for i in range(4,25,1):
         noises.append(noise(images[j],i)[0])
-
+    x=j+1
     plt.figure(1)        
-    plt.plot(cornersizes,noises,label='images%i'%j)
-    plt.legend()
-    plt.xlabel('Corner box length')
-    plt.ylabel('Standard deviation')
+    plt.plot(cornersizes,noises,label='images %i'%x)
+    cornerint = range(min(cornersizes), math.ceil(max(cornersizes))+1)
 
+    plt.xticks(cornerint) 
+    
+    #plt.legend()
+    plt.xlabel('Length of Corner Boxes (pixels)')
+    plt.ylabel('Std. Dev.(%)')
+plt.grid()
+plt.show()
 # for j in range(len(images)):
 #     averages=[]
 #     cornersizes=np.arange(4,300,1)
@@ -134,7 +144,6 @@ def read_in_img(filename):
 for i in range(len(images)):
     read_in_img(images[i])
 print(mean_pixels)
-
 
 
     
