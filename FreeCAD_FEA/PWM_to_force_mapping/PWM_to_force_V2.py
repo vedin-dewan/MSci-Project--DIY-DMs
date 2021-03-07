@@ -118,18 +118,31 @@ def PWM_to_force(FEM,interferogram_files,PWM_values,force_values,fig_number):#ha
     #print(grad_forces_FEM)
     
     PWM_graph=np.linspace(0,4095,4095)
-    
+    FEM_graph=np.linspace(0,600,600)
     grad_PWM_force=grad_PWM_INTER[0]/grad_forces_FEM[0]
     intercept=(grad_PWM_INTER[1]-grad_forces_FEM[1])/grad_forces_FEM[0]
     forces_PWM=grad_PWM_force*PWM_graph+intercept
+    print(grad_PWM_INTER)
+    print(grad_forces_FEM)
+    print(grad_PWM_force)
     
     plt.figure(fig_number)
-    plt.title('PWM values vs maximum displacement')
+    plt.title('maximum displacement for actuator 3 vs PWM values')
+    plt.xlabel('PWM values')
+    plt.ylabel('Displacement  (\u03BC m)')
     plt.errorbar(PWM,displacements_inter,fmt='o')
     plt.plot(PWM_graph,grad_PWM_INTER[0]*PWM_graph+grad_PWM_INTER[1])
-    
+
     plt.figure(fig_number+1)
-    plt.title('PWM values vs Force')
+    plt.errorbar(forces,displacements_FEM,fmt='o')
+    plt.title('maximum displacement for actuator 3 in freeCAD model vs force')
+    plt.xlabel('Force (N)')
+    plt.ylabel('Displacement  (\u03BC m)')
+    plt.plot(FEM_graph,grad_forces_FEM[0]*FEM_graph+grad_forces_FEM[1])
+    plt.figure(fig_number+2)
+    plt.title('Force vs PWM value')
+    plt.ylabel('Force(N)')
+    plt.xlabel('PWM values')
     plt.plot(PWM_graph,forces_PWM)
     
     return grad_PWM_force,intercept
