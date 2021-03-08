@@ -32,8 +32,14 @@ def read_xyz_0(filename):
     X = x_point
     Y = y_point
     Z = z_point_1
-    # plt.figure(fig_number)   #plots it before the tilt
+    # plt.figure(1)   #plots it before the tilt
+    # plt.title('Z displacment vs Y axis before tilt')
     # plt.plot(Y,Z)
+    # plt.show()
+    # plt.figure(2)
+    # plt.title('Z displacement vs X axis before tilt')
+    # plt.plot(X,Z)
+    # plt.show()
     """ Correct for tilt along x-axis"""
     Y_1=[]
     Z_1=[]
@@ -57,7 +63,7 @@ def read_xyz_0(filename):
     X = x_point
     Y = y_point*np.cos(theta) - z_point_1*np.sin(theta)
     Z = y_point*np.sin(theta) + z_point_1*np.cos(theta)
-    # plt.figure(fig_number+5)  # to check for the tilt
+    # plt.figure(3)  # to check for the tilt
     # plt.plot(Y,Z)
     """ Correct for tilt along y-axis"""
     
@@ -65,17 +71,17 @@ def read_xyz_0(filename):
     Z_3=[]
     X_2=[]
     Z_4=[]
-    for i in range(len(Y)):
-        if Y[i]<100:
-            X_1.append(Y[i])
+    for i in range(len(X)):
+        if X[i]<100:
+            X_1.append(X[i])
             Z_3.append(Z[i])
         
-        if Y[i]>500:
-            X_2.append(Y[i])
+        if X[i]>500:
+            X_2.append(X[i])
             Z_4.append(Z[i])
     peak_3_index=Z_3.index(np.max(Z_3))
     peak_4_index=Z_4.index(np.max(Z_4))
-    grad_1=(Z_4[peak_2_index]-Z_3[peak_3_index])/(X_2[peak_4_index]-X_1[peak_3_index])
+    grad_1=(Z_4[peak_4_index]-Z_3[peak_3_index])/(X_2[peak_4_index]-X_1[peak_3_index])
 
      
     
@@ -122,10 +128,11 @@ def read_xyz(filename,theta,theta_1):
     x_point=x_point-np.min(x_point)#just resets grid to 0
     y_point=y_point-np.min(y_point)#just resets grid to zero
     
-    X = x_point
-    Y = y_point
-    Z = z_point_1
-    # plt.figure(fig_number)   #plots it before the tilt
+    # X = x_point
+    # Y = y_point
+    # Z = z_point_1
+    # plt.figure(3)   #plots it before the tilt
+    # plt.title('Z displacement vs Y values repeated')
     # plt.plot(Y,Z)
    
 
@@ -135,14 +142,14 @@ def read_xyz(filename,theta,theta_1):
     X = x_point
     Y = y_point*np.cos(theta) - z_point_1*np.sin(theta)
     Z = y_point*np.sin(theta) + z_point_1*np.cos(theta)
-    # plt.figure(fig_number+5)  # to check for the tilt
-    # plt.plot(Y,Z)
+
     """ Correct for tilt along y-axis"""
     
     Y = Y
     X = X*np.cos(theta_1) - Z*np.sin(theta_1)
     Z = X*np.sin(theta_1) + Z*np.cos(theta_1)
     
+
     combined = np.vstack((X,Y,Z)).T
 
     
@@ -159,23 +166,49 @@ def read_xyz(filename,theta,theta_1):
     z_2d=hard_aperture(z_2d,250) 
     # plt.figure(fig_number)
     # plt.imshow(z_2d)
-    # # plt.pcolor(v, r, z, )
+    # plt.pcolor(v, r, z, )
     # plt.colorbar()
     # plt.show()
+    # plt.figure(4)  # to check for the tilt
+    # plt.title('Check for tilt for Y')
+    # plt.plot(Y,Z)
+    # plt.show()
     
+    # plt.figure(5)# to check for the tilt
+    # plt.title('Check for tilt for X')
+    # plt.plot(X,Z)
+    # plt.show()
+    combined = np.vstack((X,Y,Z)).T
    
     return z_2d,Z,Y,X
 
 
-def main(Image):
+def main(Image,actuators_on=None):
+   
     Image_0=Image
-    theta,theta_1=read_xyz_0(Image_0)
-    z_2d,Z,Y,X=read_xyz(Image,theta,theta_1)
+    theta_y,theta_x=read_xyz_0(Image_0)
+    if actuators_on == 2 :
+        z_2d,Z,Y,X=read_xyz(Image,theta_y,0)
+        return z_2d
+    if actuators_on == 4 :
+        z_2d,Z,Y,X=read_xyz(Image,theta_y,0)
+        return z_2d
+    
+    if actuators_on == 1 :
+        z_2d,Z,Y,X=read_xyz(Image,0,theta_x)
+        return z_2d
+    if actuators_on == 5 :
+        z_2d,Z,Y,X=read_xyz(Image,0,theta_x)
+        return z_2d
+    else:
+    
+        z_2d,Z,Y,X=read_xyz(Image,theta_y,theta_x)
+        return z_2d
     #print(z_2d)
     # z_max=np.max(z_2d)
-    return z_2d
 
-# image_1=r'C:\Users\maxim\OneDrive\Documents\Imperial college Physics\Mirror Project\Interferometry data\3_Element_DM_XYZ_Data\3_Element_DM_Test_21_11_2020_2H.xyz'
+# image_0=r'C:\Users\maxim\OneDrive\Documents\Imperial college Physics\Mirror Project\Interferometry data\5_Element_DM_XYZ_Data\5_Element_DM_Test_21_11_2020_00.xyz'
+# image_1=r'C:\Users\maxim\OneDrive\Documents\Imperial college Physics\Mirror Project\Interferometry data\5_Element_DM_XYZ_Data\5_Element_DM_Test_21_11_2020_24D.xyz'
 # z=main(image_1)
 
 # plt.figure(10)
